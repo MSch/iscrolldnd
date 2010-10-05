@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<title>Drag and drop example</title>
+
+<script type="application/javascript" src="iscroll.js?v3"></script>
+<script type="application/javascript" src="dnd.js?v3"></script>
+
+<script type="text/javascript">
+var items, sandbox, dragndrop;
+function loaded() {
+	dragndrop = new dnd({
+		onDragEnd: function () {
+			var log = document.getElementById('log');
+			log.innerHTML += '<br>DRAG END: ' + this.containers[this.activeContainer].id;
+
+			for (var i=0, l=this.draggables[this.activeContainer].length; i<l; i++) {
+//				log.innerHTML += '<br>' + this.draggables[this.activeContainer][i].innerHTML;
+			}
+
+			items.refresh();
+			sandbox.refresh();
+		},
+		
+		onChange: function (el) {
+			log.innerHTML += '<br>CHANGE: ' + el.id;
+//			log.innerHTML += '<br>' + el.innerHTML;
+		},
+		
+		onThrowAway: function(el) {
+			log.innerHTML += '<br>THROW AWAY: ' + el.innerHTML;
+			this.removeElement(el)
+		}
+	});
+
+	items = new iScroll('itemList', { dnd:dragndrop, vScrollbar:false, desktopCompatibility:true });
+	sandbox = new iScroll('workarea', { dnd:dragndrop, vScrollbar:false, desktopCompatibility:true });
+}
+
+document.addEventListener('DOMContentLoaded', loaded, false);
+</script>
+
+<style type="text/css" media="all">
+body,ul,li {
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+ul {
+	list-style:none;
+}
+
+body {
+	font-size:12px;
+	-webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+	font-family:helvetica;
+/*	padding-bottom:44px;	/*	This prevents the scroller to lock if the user swipes down outside of the screen.
+							 	NOT needed if in home screen mode and on Android. */
+}
+
+#wrapper {
+	width:200px; height:400px;
+	top:10px; left:10px;
+
+	position:absolute; z-index:1;
+
+	background:#aaa;
+	overflow:hidden;
+	border:2px solid #555;
+}
+
+#itemList {
+	float:left;
+	width:100%;
+}
+
+.thelist {
+	width:200px;
+	text-align:left;
+}
+
+.thelist > li {
+	padding:0 10px;
+	height:40px;
+	line-height:40px;
+	background-color:#fafafa;
+	font-size:14px;
+	margin:5px;
+	-webkit-border-radius:10px;
+}
+
+#workareaWrapper {
+	position:absolute; z-index:1;
+	width:300px; height:500px;
+	top:10px; left:230px;
+	
+	border:2px solid #aaa;
+	overflow:hidden;
+}
+
+#workarea {
+	width:100%;
+	float:left;
+}
+
+.theworkarea {
+	width:300px;
+}
+
+.theworkarea > li {
+	padding:0 10px;
+	height:40px;
+	line-height:40px;
+	background-color:#ccc;
+	font-size:14px;
+	margin:5px;
+	-webkit-border-radius:10px;
+}
+
+#draghelp {
+	position:absolute; z-index:100;
+	top:0; left:0;
+	visibility:hidden;
+}
+
+#draghelp > li {
+	-webkit-box-shadow:0 2px 5px rgba(0,0,0,0.4);
+}
+
+#itemList > li.activeDraggable {
+	opacity:0.4;
+}
+
+#workarea > li.activeDraggable {
+	-webkit-box-sizing:border-box;
+	border:2px dashed #aaa;
+	background-color:#fff !important;
+}
+
+#workarea > li.activeDraggable span {
+	visibility:hidden;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+	<ul id="itemList" class="thelist draggable">
+		<li><span>Item 1</span></li>
+		<li><span>Item 2</span></li>
+		<li><span>Item 3</span></li>
+		<li><span>Item 4</span></li>
+		<li><span>Item 5</span></li>
+		<li><span>Item 6</span></li>
+		<li><span>Item 7</span></li>
+		<li><span>Item 8</span></li>
+		<li><span>Item 9</span></li>
+		<li><span>Item 10</span></li>
+		<li><span>Item 11</span></li>
+		<li><span>Item 12</span></li>
+		<li><span>Item 13</span></li>
+		<li><span>Item 14</span></li>
+		<li><span>Item 15</span></li>
+		<li><span>Item 16</span></li>
+		<li><span>Item 17</span></li>
+		<li><span>Item 18</span></li>
+		<li><span>Item 19</span></li>
+		<li><span>Item 20</span></li>
+		<li><span>Item 21</span></li>
+		<li><span>Item 22</span></li>
+		<li><span>Item 23</span></li>
+		<li><span>Item 24</span></li>
+		<li><span>Item 25</span></li>
+		<li><span>Item 26</span></li>
+		<li><span>Item 27</span></li>
+		<li><span>Item 28</span></li>
+		<li><span>Item 29</span></li>
+		<li><span>Item 30</span></li>
+		<li><span>Item 31</span></li>
+		<li><span>Item 32</span></li>
+	</ul>
+</div>
+
+<div id="workareaWrapper">
+	<ul id="workarea" class="theworkarea draggable">
+	</ul>
+</div>
+
+<ul id="draghelp" class="thelist"></ul>
+
+<div style="position:absolute; top:10px; right:10px; color:red; text-align:right" id="log"><strong>Log</strong></div>
+</body>
+</html>
