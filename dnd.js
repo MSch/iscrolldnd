@@ -1,3 +1,20 @@
+/** 
+ * Sponsored by Storify.com
+ *
+ * Find more about the scrolling function at
+ * http://cubiq.org/iscroll
+ *
+ * Copyright (c) 2010 Storify
+ *
+ * @author Matteo Spinelli, http://cubiq.org/
+ *
+ * Released under MIT license
+ * http://cubiq.org/dropbox/mit-license.txt
+ * 
+ * Based on iScroll v3.6
+ * 
+ */
+
 (function(){
 
 function dnd (options) {
@@ -257,6 +274,7 @@ dnd.prototype = {
 			that.options.onThrowAway.call(that, that.activeDraggable);
 		}
 
+		var draggedItem;
 		// On container change
 		if (that.options.onChange) {
 			for (i=0, l=that.containers.length; i<l; i++) {
@@ -266,6 +284,7 @@ dnd.prototype = {
 					order+= that.draggables[i][j]._order + ',';
 				}
 			
+				draggedItem = that.containers[i];
 				if (order != that.containers[i]._order) {
 					that.options.onChange.call(that, that.containers[i]);
 				}
@@ -276,7 +295,7 @@ dnd.prototype = {
 
 		// On drag end
 		if (that.options.onDragEnd) {
-			that.options.onDragEnd.call(that);
+			that.options.onDragEnd.call(that,draggedItem);
 		}
 
 		that.refresh(true);
