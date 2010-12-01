@@ -284,8 +284,8 @@ dnd.prototype = {
 					order+= that.draggables[i][j]._order + ',';
 				}
 			
-				draggedItem = that.containers[i];
 				if (order != that.containers[i]._order) {
+					draggedItem = that.containers[i];
 					that.options.onChange.call(that, that.containers[i]);
 				}
 			}
@@ -295,7 +295,7 @@ dnd.prototype = {
 
 		// On drag end
 		if (that.options.onDragEnd) {
-			that.options.onDragEnd.call(that,draggedItem);
+			that.options.onDragEnd.call(that,that.activeDraggable);
 		}
 
 		that.refresh(true);
